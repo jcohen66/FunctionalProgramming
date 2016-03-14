@@ -1,0 +1,16 @@
+package week4
+
+abstract class Boolean {
+	def ifThenElse[T](t: => T, e: => T): T
+	
+	def && (x: => Boolean): Boolean = ifThenElse(x, false)
+	def || (x: => Boolean): Boolean = ifThenElse(true, x)
+	def unary_! : Boolean = ifThenElse(false, true)
+	
+	def == (x: Boolean): Boolean = ifThenElse(x, x.unary_!)
+	def != (x: Boolean): Boolean = ifThenElse(x.unary_!, x)
+}
+
+object idealizedboolean {;import org.scalaide.worksheet.runtime.library.WorksheetSupport._; def main(args: Array[String])=$execute{;$skip(430); 
+  println("Welcome to the Scala worksheet")}
+}

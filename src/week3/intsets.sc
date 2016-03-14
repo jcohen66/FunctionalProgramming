@@ -2,8 +2,8 @@ package week3
  
 object intsets {
 
-  val t1 = new NonEmpty(3, Empty, Empty)          //> t1  : week3.NonEmpty = {.3.}
- 	val t2 = t1 incl 4                        //> t2  : week3.IntSet = {.3{.4.}}
+  val t1 = new NonEmpty(3, Empty, Empty)
+ 	val t2 = t1 incl 4
 }
 
 
@@ -37,5 +37,10 @@ class NonEmpty(elem: Int, left: IntSet, right: IntSet) extends IntSet {
 		((left union right) union other) incl elem
 		
 	override def toString() = "{" + left + elem + right + "}"
+		
+	val a: Array[NonEmpty] = Array(new NonEmpty(1, Empty, Empty))
+	val b: Array[IntSet] = a
+	b(0) = Empty
+	val s: NonEmpty = a(0)
 		
 }
