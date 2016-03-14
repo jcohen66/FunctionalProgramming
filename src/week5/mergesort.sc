@@ -1,36 +1,30 @@
 package week5
 
-
-
-
 object mergesort {
 
-	def merge(xs: List[Int], ys: List[Int]): List[Int] =
-		(xs, ys) match {
-			case (Nil, ys1) =>
-				ys
-			case (xs, Nil) =>
-				xs
-			case (x::xs1, y::ys1) =>
-						if (x < y) x :: merge(xs1, ys)
-						else y :: merge(xs, ys1)
-						
-		}                                 //> merge: (xs: List[Int], ys: List[Int])List[Int]
-	
 
+  def msort[T](xs: List[T])( lt: (T, T) => Boolean): List[T] = {
+    val n = xs.length / 2
+    if (n == 0) xs
+    else {
+      def merge(xs: List[T], ys: List[T]): List[T] =
+        (xs, ys) match {
+          case (Nil, ys1) =>
+            ys
+          case (xs, Nil) =>
+            xs
+          case (x :: xs1, y :: ys1) =>
+            if (lt(x, y)) x :: merge(xs1, ys)
+            else y :: merge(xs, ys1)
 
-	def msort(xs: List[Int]): List[Int] = {
-		val n = xs.length/2
-		if (n == 0) xs
-		else {
-			
-			val (fst, snd) = xs splitAt n
-			merge(msort(fst), msort(snd))
-		}
-	}                                         //> msort: (xs: List[Int])List[Int]
+        }
+        
+      val (fst, snd) = xs splitAt n
+      merge(msort(fst)(lt), msort(snd)(lt))
+    }
+  }                                               //> msort: [T](xs: List[T])(lt: (T, T) => Boolean)List[T]
 
-
-	val l1 = (1 to 10000).toList              //> l1  : List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+  val l1 = (1 to 10000).toList                    //> l1  : List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
                                                   //| , 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
                                                   //| , 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
                                                   //| , 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73
@@ -44,7 +38,7 @@ object mergesort {
                                                   //| 85, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 20
                                                   //| 0, 201, 202, 203, 204, 2
                                                   //| Output exceeds cutoff limit.
-	msort(l1)                                 //> res0: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+  msort(l1)((x: Int, y: Int) => x < y)            //> res0: List[Int] = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
                                                   //| , 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35
                                                   //| , 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54
                                                   //| , 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73
